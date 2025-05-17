@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Inventory System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-lime-200 min-h-screen flex flex-col items-center">
+    <header class="w-full bg-lime-600 text-white p-4 text-center">
+        <h1 class="text-3xl font-bold">Plant Inventory System</h1>
+    </header>
+
+    <main class="w-full max-w-4xl p-8">
+        <section id="items" class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">Plant List</h2>
+            <table class="w-full border-collapse border border-lime-900">
+                <thead>
+                    <tr class="bg-lime-600">
+                        <th class="border border-lime-950 p-2">Product</th>
+                        <th class="border border-lime-950 p-2">Category</th>
+                        <th class="border border-lime-950 p-2">Quantity</th>
+                        <th class="border border-lime-950 p-2">Price</th>
+                        <th class="border border-lime-950 p-2">Acquisition Date</th>
+                        <th class="border border-lime-950 p-2">Status</th>
+                        <th class="border border-lime-950 p-2">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td class="border border-lime-950 p-2">{{ item.product }}</td>
+                        <td class="border border-lime-950 p-2">{{ item.category }}</td>
+                        <td class="border border-lime-950 p-2">{{ item.quantity }}</td>
+                        <td class="border border-lime-950 p-2">{{ item.price }}</td>
+                        <td class="border border-lime-950 p-2">{{ item.acquisition_date }}</td>
+                        <td class="border border-lime-950 p-2">{{ item.status }}</td>
+                        <td class="border border-lime-950 p-2">
+                            <a href="{{ url_for('update_item', item_id=item.id) }}"
+                                class="text-blue-500 hover:underline">Update</a>
+                            <a href="{{ url_for('delete_item', item_id=item.id) }}"
+                                class="text-red-500 hover:underline"
+                                onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <section id="add-item">
+            <h2 class="text-2xl font-bold mb-4">Add New Plant</h2>
+            <form action="{{ url_for('add_item') }}" method="POST" class="space-y-4">
+                <input type="text" name="product" placeholder="Plant Name" required
+                    class="w-full p-2 border rounded">
+                <select name="category" required class="w-full p-2 border rounded">
+                    <option value="">Select Category</option>
+                    <option value="Indoor Plants">Indoor Plants</option>
+                    <option value="Outdoor Plants">Outdoor Plants</option>
+                    <option value="Flowering Plants">Flowering Plants</option>
+                    <option value="Succulents & Cacti">Succulents & Cacti</option>
+                    <option value="Herbs">Herbs</option>
+                    <option value="Vegetables">Vegetables</option>
+                    <option value="Trees & Shrubs">Trees & Shrubs</option>
+                    <option value="Planting Supplies">Planting Supplies</option>
+                    <option value="Tools & Accessories">Tools & Accessories</option>
+                </select>
+                <input type="number" name="quantity" placeholder="Quantity" required
+                    class="w-full p-2 border rounded">
+                <input type="number" step="0.01" name="price" placeholder="Price" required
+                    class="w-full p-2 border rounded">
+                <input type="date" name="date" required class="w-full p-2 border rounded">
+                <select name="status" required class="w-full p-2 border rounded">
+                    <option value="Available">Available</option>
+                    <option value="Not Available">Not Available</option>
+                </select>
+                <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Add
+                    Plant</button>
+            </form>
+        </section>
+    </main>
+</body>
+
+</html>
